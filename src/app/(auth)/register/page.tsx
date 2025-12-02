@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
+import { register } from "@/lib/api";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -32,15 +33,18 @@ export default function RegisterPage() {
         setIsLoading(true);
 
         try {
-            // TODO: Call your NestJS backend API to create user
-            // For now, simulate registration
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Call your NestJS backend API to create user
+            await register({
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+            });
 
             // After successful registration, redirect to onboarding
             router.push("/onboarding");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Registration error:", error);
-            alert("An error occurred during registration");
+            alert(error.message || "An error occurred during registration");
         } finally {
             setIsLoading(false);
         }

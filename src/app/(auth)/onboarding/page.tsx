@@ -35,9 +35,15 @@ export default function OnboardingPage() {
         if (step < totalSteps) {
             setStep(step + 1);
         } else {
-            // Save data and redirect to dashboard
-            console.log("Onboarding data:", formData);
-            router.push("/home");
+            // Save data to backend and redirect to dashboard
+            try {
+                // TODO: Get user token from session and call onboarding API
+                console.log("Onboarding data:", formData);
+                router.push("/home");
+            } catch (error) {
+                console.error("Onboarding error:", error);
+                alert("Failed to save onboarding data");
+            }
         }
     };
 
